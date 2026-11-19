@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>See it live — QuickCart</title><meta name="description" content="Try the QuickCart store, POS, inventory and accounting in an interactive demo.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#0a1f44"><link rel="icon" href="/favicon.ico" sizes="any"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="manifest" href="/manifest.json">
+<meta property="og:type" content="website"><meta property="og:site_name" content="QuickCart"><meta property="og:title" content="See it live — QuickCart"><meta property="og:description" content="Try the QuickCart store, POS, inventory and accounting in an interactive demo."><meta property="og:image" content="/og-image.png"><meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="assets/site.css">
+</head><body data-page="demo">
+<div id="site-nav"></div>
+<header class="sx-hero"><span class="sx-pill">▶ Interactive demo</span><h1>Click around. <em>This is the real thing.</em></h1><p>Add products to a cart, ring up a sale, restock an item and watch the numbers move — no sign-up needed.</p></header><section class="sx-sec dark" style="padding-top:20px"><div class="sx-wrap">
+<div class="sx-demo sx-rv"><div class="sx-dbar"><i style="background:#ff5f57"></i><i style="background:#febc2e"></i><i style="background:#28c840"></i><span>your-store.quickcart.ng</span></div>
+<div class="sx-dtabs" id="dt"><button class="on" data-t="store">🏪 Store</button><button data-t="pos">🖥️ POS</button><button data-t="inv">📦 Inventory</button><button data-t="acc">📒 Accounting</button></div>
+<div class="sx-dbody" id="db"></div></div>
+<p style="text-align:center;color:#9fb0d6;margin-top:22px">Every module shares the same stock and customers, so nothing is ever out of sync.</p></div></section>
+<section class="sx-sec"><div class="sx-wrap"><div class="sx-head sx-rv"><span class="sx-tag">What you just saw</span><h2>Four tools. One account.</h2></div>
+<div class="sx-grid four">
+<div class="sx-card sx-rv"><div class="sx-ico">🏪</div><h3>Store</h3><p>A mobile-first shop customers can browse and pay on.</p></div>
+<div class="sx-card sx-rv"><div class="sx-ico">🖥️</div><h3>POS</h3><p>A fast till with cash, card, transfer and split payments.</p></div>
+<div class="sx-card sx-rv"><div class="sx-ico">📦</div><h3>Inventory</h3><p>Live stock levels with alerts before you run out.</p></div>
+<div class="sx-card sx-rv"><div class="sx-ico">📒</div><h3>Accounting</h3><p>Income, expenses and profit from every sale.</p></div></div></div></section>
+<section class="sx-sec"><div class="sx-wrap"><div class="sx-cta sx-rv"><h2>Like what you see?</h2><p>Build your own in under 10 minutes.</p><div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap"><button class="sx-btn lg" data-go="/register">🚀 Start free — 14 days</button><button class="sx-btn lg glass" data-go="/contact">Talk to us</button></div></div></div></section>
+<div id="site-foot"></div>
+<script src="assets/site.js"></script>
+<script src="assets/platform.js"></script>
+<script>
+(function(){
+var P=[['📱','Galaxy A35',285000],['💻','HP Laptop 15s',520000],['🎧','AirPods Pro',165000],['👟','Nike Air Max 90',95000],['⌚','Apple Watch SE',210000],['🎒','Backpack',38000],['📷','Mirrorless Camera',640000],['🔊','Speaker',72000]];
+var stock=[['Galaxy A35',14,80],['HP Laptop 15s',3,18],['AirPods Pro',22,100],['Nike Air Max',2,10]];
+var cart={},done=false,tab='store',db=document.getElementById('db');
+var N=function(n){return '₦'+Math.round(n).toLocaleString('en-NG')};
+function prods(onclick){return '<div class="sx-prods">'+P.map(function(p,i){return '<button class="sx-prod" data-i="'+i+'"><span class="e">'+p[0]+'</span><b>'+p[1]+'</b><span>'+N(p[2])+'</span></button>'}).join('')+'</div>';}
+function total(){return Object.keys(cart).reduce(function(s,i){return s+P[i][2]*cart[i]},0);}
+function render(){
+ if(tab==='store'){db.innerHTML='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px"><h3 style="font-size:22px">Featured products</h3><b id="cc" style="background:#fff1ea;color:#ff5a1f;padding:8px 16px;border-radius:99px;font-size:14px">🛒 '+count()+' in cart</b></div>'+prods()+'<div id="msg"></div>';
+  db.querySelectorAll('.sx-prod').forEach(function(b){b.onclick=function(){var i=b.dataset.i;cart[i]=(cart[i]||0)+1;done=false;document.getElementById('cc').textContent='🛒 '+count()+' in cart';document.getElementById('msg').innerHTML='<div class="sx-ok">Added '+P[i][1]+' — open the POS tab to ring it up.</div>';};});}
+ if(tab==='pos'){db.innerHTML='<div class="sx-pos"><div><h3 style="font-size:20px;margin-bottom:14px">Tap to add</h3>'+prods()+'</div><div class="sx-cart"><b style="font-family:var(--display);font-size:18px;margin-bottom:10px">Current sale ('+count()+')</b><div class="sx-cart-l" id="cl"></div><div class="sx-tot"><span>Total</span><span id="tt"></span></div><button class="sx-btn full" id="co">Checkout →</button><div id="pm"></div></div></div>';
+  db.querySelectorAll('.sx-prod').forEach(function(b){b.onclick=function(){var i=b.dataset.i;cart[i]=(cart[i]||0)+1;done=false;cartDraw();};});cartDraw();
+  document.getElementById('co').onclick=function(){if(!count()){document.getElementById('pm').innerHTML='<div class="sx-ok" style="background:#fff1ea;color:#ff5a1f">Add something first.</div>';return;}
+   document.getElementById('pm').innerHTML='<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px">'+['💵 Cash','💳 Card','🏦 Transfer'].map(function(m){return '<button class="sx-btn ghost sm" data-m="'+m+'" style="padding:10px 4px">'+m+'</button>'}).join('')+'</div>';
+   document.querySelectorAll('#pm [data-m]').forEach(function(b){b.onclick=function(){var t=total();cart={};done=true;cartDraw();document.getElementById('pm').innerHTML='<div class="sx-ok">✅ '+N(t)+' paid by '+b.dataset.m.slice(3)+'. Receipt ready.</div>';};});};}
+ if(tab==='inv'){db.innerHTML='<h3 style="font-size:22px;margin-bottom:18px">Stock levels</h3><div class="sx-inv">'+stock.map(function(s,i){var low=s[1]<5;return '<div class="sx-invr"><span>'+s[0]+'</span><div class="sx-bar"><i style="width:'+Math.min(100,s[1]/s[2]*100)+'%;background:'+(low?'#ff5a1f':'#00b894')+'"></i></div><b>'+s[1]+' left'+(low?' ⚠️':'')+'</b></div>'+(low?'<div style="margin:-6px 0 4px"><button class="sx-btn sm" data-r="'+i+'">Restock +10</button></div>':'')}).join('')+'</div>';
+  db.querySelectorAll('[data-r]').forEach(function(b){b.onclick=function(){stock[b.dataset.r][1]+=10;render();};});}
+ if(tab==='acc'){var m=[40,55,48,70,62,88,96];db.innerHTML='<div class="sx-kpis"><div><small>Income</small><b>₦4.2M</b></div><div><small>Expenses</small><b>₦1.9M</b></div><div><small>Profit</small><b style="color:#0a8a5a">₦2.3M</b></div></div><div class="sx-bars" id="bs">'+m.map(function(){return '<i style="height:4%"></i>'}).join('')+'</div><div class="sx-bl">'+['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].map(function(d){return '<span>'+d+'</span>'}).join('')+'</div>';
+  setTimeout(function(){document.querySelectorAll('#bs i').forEach(function(b,i){b.style.height=m[i]+'%'})},50);}
+}
+function count(){return Object.keys(cart).reduce(function(s,i){return s+cart[i]},0);}
+function cartDraw(){var l=document.getElementById('cl');if(!l)return;var ks=Object.keys(cart);
+ l.innerHTML=ks.length?ks.map(function(i){return '<div class="sx-crow"><span>'+P[i][0]+' '+P[i][1]+' × '+cart[i]+'</span><span style="display:flex;gap:8px;align-items:center"><b>'+N(P[i][2]*cart[i])+'</b><button data-x="'+i+'">✕</button></span></div>'}).join(''):'<div style="color:#8a94ad;text-align:center;padding:30px 0;font-size:14px">'+(done?'Sale complete 🎉':'Cart is empty')+'</div>';
+ l.querySelectorAll('[data-x]').forEach(function(b){b.onclick=function(){delete cart[b.dataset.x];cartDraw();};});
+ document.getElementById('tt').textContent=N(total());}
+document.querySelectorAll('#dt button').forEach(function(b){b.onclick=function(){document.querySelectorAll('#dt button').forEach(function(x){x.classList.remove('on')});b.classList.add('on');tab=b.dataset.t;render();};});
+render();})();
+</script>
+</body></html>

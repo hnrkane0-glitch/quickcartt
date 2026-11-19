@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Contact us — QuickCart</title><meta name="description" content="Contact QuickCart — send a message and it goes straight to our inbox, or email hnrkane@gmail.com.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#0a1f44"><link rel="icon" href="/favicon.ico" sizes="any"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="manifest" href="/manifest.json">
+<meta property="og:type" content="website"><meta property="og:site_name" content="QuickCart"><meta property="og:title" content="Contact us — QuickCart"><meta property="og:description" content="Contact QuickCart — send a message and it goes straight to our inbox, or email hnrkane@gmail.com."><meta property="og:image" content="/og-image.png"><meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="assets/site.css">
+</head><body data-page="contact">
+<div id="site-nav"></div>
+<header class="sx-hero"><span class="sx-pill">✉️ We’d love to hear from you</span><h1>Get in <em>touch.</em></h1><p>Questions, feedback, a custom plan or a problem to fix — send us a message and it lands straight in our inbox.</p></header><section class="sx-sec" style="padding-top:60px"><div class="sx-wrap"><div class="sx-contact">
+<div class="sx-info sx-rv">
+<div class="sx-card"><div class="sx-ic"><div class="sx-ico">📧</div><div><h4>Email us</h4><p>The fastest way to reach the team.</p><a href="mailto:hnrkane@gmail.com">hnrkane@gmail.com</a></div></div></div>
+<div class="sx-card"><div class="sx-ic"><div class="sx-ico">🏢</div><div><h4>Sales &amp; Enterprise</h4><p>Multiple branches, API access or white-label? Pick “Sales” in the form and tell us about your business.</p></div></div></div>
+<div class="sx-card"><div class="sx-ic"><div class="sx-ico">🛟</div><div><h4>Need help now?</h4><p>Many answers are already in our <a href="/faq" data-go="/faq">FAQ</a>.</p></div></div></div>
+</div>
+<div class="sx-form sx-rv"><div id="cf-wrap"><h3>Send us a message</h3><p>We reply by email.</p>
+<form id="cf" novalidate>
+<div class="sx-f2"><div class="sx-fld"><label for="cn">Your name *</label><input id="cn" name="name" autocomplete="name" maxlength="80" required></div>
+<div class="sx-fld"><label for="ce">Email *</label><input id="ce" name="email" type="email" autocomplete="email" maxlength="120" required></div></div>
+<div class="sx-f2"><div class="sx-fld"><label for="cp">Phone / WhatsApp</label><input id="cp" name="phone" type="tel" autocomplete="tel" maxlength="30" placeholder="Optional"></div>
+<div class="sx-fld"><label for="ct">Topic</label><select id="ct" name="topic"><option>General question</option><option>Sales / Enterprise plan</option><option>Technical support</option><option>Billing</option><option>Feedback or idea</option></select></div></div>
+<div class="sx-fld"><label for="cm">Message *</label><textarea id="cm" name="message" maxlength="4000" required placeholder="How can we help?"></textarea></div>
+<input class="sx-hp" id="cw" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+<button class="sx-btn lg full" id="cs" type="submit">Send message →</button><div class="sx-msg" id="cmsg" role="alert"></div></form></div>
+<div class="sx-done" id="cd"><div class="big">✅</div><h3>Message sent!</h3><p>Thanks for reaching out. We’ll reply to the email you gave us.</p><button class="sx-btn ghost" id="cag" style="margin-top:12px">Send another</button></div></div>
+</div></div></section>
+<div id="site-foot"></div>
+<script src="assets/site.js"></script>
+<script src="assets/platform.js"></script>
+<script>
+(function(){var f=document.getElementById('cf'),b=document.getElementById('cs'),m=document.getElementById('cmsg');
+function show(t,c){m.className='sx-msg '+c;m.textContent=t;}
+f.onsubmit=function(e){e.preventDefault();m.className='sx-msg';
+ var g=function(i){return document.getElementById(i).value};var d={name:g('cn').trim(),email:g('ce').trim(),phone:g('cp').trim(),topic:g('ct'),message:g('cm').trim(),website:g('cw')};
+ if(!d.name||!d.email||!d.message)return show('Please fill in your name, email and message.','err');
+ if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(d.email))return show('That email address doesn’t look right.','err');
+ b.disabled=true;b.textContent='Sending…';
+ fetch('/api/contact',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)}).then(function(r){return r.json().catch(function(){return{}}).then(function(j){return{ok:r.ok&&j.ok,j:j}})})
+ .then(function(x){if(x.ok){document.getElementById('cf-wrap').style.display='none';document.getElementById('cd').style.display='block';f.reset();}else{show((x.j&&x.j.error)||'Could not send right now. Please email hnrkane@gmail.com directly.','err');}})
+ .catch(function(){show('Network problem. Please try again or email hnrkane@gmail.com.','err');})
+ .then(function(){b.disabled=false;b.textContent='Send message →';});};
+document.getElementById('cag').onclick=function(){document.getElementById('cd').style.display='none';document.getElementById('cf-wrap').style.display='block';m.className='sx-msg';};})();
+</script>
+</body></html>

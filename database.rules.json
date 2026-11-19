@@ -1,0 +1,81 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+    "users": {
+      ".indexOn": [
+        "username",
+        "email",
+        "owner"
+      ],
+      "$owner": {
+        ".read": "auth != null && auth.owner === $owner",
+        ".write": "auth != null && auth.owner === $owner",
+        "products": {
+          ".read": true,
+          "$pid": {
+            "quantity": {
+              ".write": "newData.isNumber() && data.isNumber() && newData.val() >= 0 && newData.val() < data.val()"
+            }
+          }
+        },
+        "product_gallery": {
+          ".read": true
+        },
+        "orders": {
+          "$ref": {
+            ".read": true,
+            ".write": "!data.exists() && newData.exists()"
+          }
+        },
+        "settings": {
+          "store_profile": {
+            ".read": true
+          },
+          "store_design": {
+            ".read": true
+          },
+          "paystack_key": {
+            ".read": true
+          },
+          "bank_account": {
+            ".read": true
+          },
+          "checkout_options": {
+            ".read": true
+          },
+          "online_pay": {
+            ".read": true
+          },
+          "page_overrides": {
+            ".read": true
+          }
+        },
+        "businessName": {
+          ".read": true
+        }
+      }
+    },
+    "dbmap": {
+      ".read": true
+    },
+    "domains": {
+      "$d": {
+        ".read": true,
+        ".write": "auth != null && (!data.exists() || data.child('owner').val() === auth.owner) && (!newData.exists() || newData.child('owner').val() === auth.owner)"
+      }
+    },
+    "domains_by_owner": {
+      "$o": {
+        ".read": "auth != null && auth.owner === $o",
+        ".write": "auth != null && auth.owner === $o"
+      }
+    },
+    "qc_sub_by_owner": {
+      "$o": {
+        ".read": "auth != null && auth.owner === $o",
+        ".write": "auth != null && auth.owner === $o"
+      }
+    }
+  }
+}
